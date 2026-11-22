@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#281308">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>King Ranch | Michael & Dana</title>
+<style>
+:root{
+ --gold:#e9b96b;
+ --copper:#b87539;
+ --dark:#1b0c07;
+ --leather:#482514;
+}
+*{box-sizing:border-box}
+html,body{
+ margin:0;width:100%;min-height:100%;
+ background:#160a05;color:#ffe2a7;
+ font-family:Georgia,serif;
+}
+button,a{-webkit-tap-highlight-color:transparent}
+.dashboard{
+ min-height:100dvh;
+ display:flex;flex-direction:column;
+ gap:10px;padding:13px;
+ background:
+ repeating-linear-gradient(32deg,
+ transparent 0 3px,#ffffff04 4px 5px),
+ radial-gradient(ellipse at 50% 15%,
+ #66391f 0%,#32180d 48%,#160905 100%);
+}
+.leather{
+ position:relative;
+ border:4px ridge var(--copper);
+ border-radius:17px;
+ background:linear-gradient(135deg,
+ #59311d,#301509 65%,#492615);
+ box-shadow:inset 0 0 17px #0a0302,
+ 0 4px 9px #080301;
+}
+.leather:after{
+ content:"";position:absolute;
+ inset:5px;border:1px dashed #d6a06a;
+ border-radius:10px;
+ pointer-events:none;z-index:3;
+}
+.header{
+ height:142px;
+ display:grid;
+ grid-template-columns:21% 1fr 23%;
+ overflow:hidden;
+}
+.monogram{
+ display:flex;align-items:center;
+ justify-content:center;
+ border-right:3px solid #a76b36;
+}
+.monogram span{
+ font:bold italic clamp(36px,6vw,85px) Georgia;
+ letter-spacing:-8px;
+ background:linear-gradient(
+ #fff4c9 5%,#e5a34c 30%,
+ #754017 55%,#ffdfa0 80%,#a5672d);
+ -webkit-background-clip:text;
+ background-clip:text;
+ color:transparent;
+ filter:drop-shadow(3px 4px 2px #000);
+}
+.sunset{
+ position:relative;
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ text-align:center;overflow:hidden;
+ background:linear-gradient(
+ 0deg,#301208 0%,#8e3428 25%,
+ #e48b45 55%,#6b344b 85%,#30172c);
+}
+.sun{
+ position:absolute;
+ bottom:8px;left:44%;
+ width:95px;height:95px;border-radius:50%;
+ background:radial-gradient(circle,
+ #fff6c0,#ffca67 55%,transparent 75%);
+ filter:blur(3px);
+}
+.ranch-art{
+ position:absolute;bottom:0;left:0;
+ width:100%;height:72%;
+ opacity:.75;
+}
+.sunset h1{
+ position:relative;z-index:2;
+ margin:0;
+ font-size:clamp(24px,4.5vw,56px);
+ color:#ffe4a1;
+ text-shadow:3px 4px 3px #240a05,
+ 0 0 12px #2b0b04;
+ letter-spacing:3px;
+}
+.sunset small{
+ position:relative;z-index:2;
+ letter-spacing:3px;
+ text-shadow:1px 2px 3px #000;
+}
+.status{
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ gap:8px;padding:8px;
+ text-align:center;
+}
+#weather{
+ font-size:clamp(13px,1.8vw,20px);
+}
+#clock{
+ font-size:clamp(21px,3vw,36px);
+ color:#ffdf9a;
+}
+#date{font-size:clamp(10px,1.3vw,15px)}
+.content{
+ flex:1;min-height:0;
+ display:grid;
+ grid-template-columns:62% 1fr;
+ gap:10px;
+}
+.map-panel{
+ min-height:400px;padding:10px;
+ overflow:hidden;
+}
+.map-wrap{
+ position:relative;
+ width:100%;height:100%;
+ min-height:380px;
+ overflow:hidden;
+ border-radius:10px;
+ background:#c2c9a8;
+}
+.map-wrap iframe{
+ display:block;width:100%;height:100%;
+ border:0;
+}
+.map-wrap.full{
+ position:fixed;inset:0;
+ width:100vw;height:100dvh;
+ z-index:9999;border-radius:0;
+}
+.map-btn{
+ position:absolute;z-index:5;
+ top:12px;right:12px;
+ padding:12px 16px;
+ border:2px solid #e7bd79;
+ border-radius:9px;
+ background:#2b160eea;
+ color:#ffe4a6;
+ font:bold 14px Arial;
+}
+.side{
+ display:grid;
+ grid-template-rows:1fr 1fr 1.5fr;
+ gap:10px;min-height:0;
+}
+.music{
+ display:flex;align-items:center;
+ justify-content:center;gap:15px;
+ padding:12px;
+ text-decoration:none;color:#fff;
+ border-radius:17px;
+ border:4px ridge #c78b49;
+ box-shadow:inset 0 0 22px #0009,
+ 0 4px 8px #090302;
+}
+.pandora{
+ background:linear-gradient(145deg,
+ #061c49,#0873c4 55%,#042052);
+}
+.apple{
+ background:linear-gradient(145deg,
+ #520b23,#d82c4b 55%,#560d27);
+}
+.music-symbol{
+ font:bold clamp(36px,5vw,65px) Arial;
+ text-shadow:3px 4px 3px #0008;
+}
+.music-name{
+ font:bold clamp(19px,2.7vw,34px) Arial;
+}
+.music-sub{
+ display:block;margin-top:7px;
+ font:12px Arial;opacity:.9;
+}
+.plaque{
+ display:flex;flex-direction:column;
+ justify-content:center;align-items:center;
+ padding:12px;overflow:hidden;
+}
+.horns{
+ width:min(85%,250px);
+ height:100px;
+ filter:drop-shadow(2px 4px 3px #000);
+}
+.name{
+ width:90%;
+ text-align:center;
+ padding:12px 5px;
+ border:4px ridge #f4d28d;
+ border-radius:35px;
+ background:linear-gradient(150deg,
+ #87501f,#f9dfa0 42%,#ad6e2e 75%,#f0c27b);
+ color:#3a1908;
+ font:bold italic clamp(18px,2.8vw,34px) Georgia;
+ text-shadow:0 1px #fff3c8;
+ box-shadow:0 4px 8px #0009;
+}
+.footer{
+ text-align:center;
+ font-size:10px;letter-spacing:3px;
+ color:#c79c69;
+}
+@media(max-width:650px){
+ .dashboard{padding:8px;gap:8px}
+ .header{
+  height:105px;
+  grid-template-columns:23% 1fr 25%;
+ }
+ .monogram span{
+  font-size:32px;letter-spacing:-4px;
+ }
+ .sunset h1{font-size:22px;letter-spacing:1px}
+ .sunset small{font-size:8px}
+ .content{grid-template-columns:1fr}
+ .map-panel{height:48vh;min-height:260px}
+ .map-wrap{min-height:230px}
+ .side{grid-template-rows:100px 100px 170px}
+ .status{gap:4px}
+ #clock{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+
+<header class="header leather">
+ <div class="monogram">
+  <span>M&amp;D</span>
+ </div>
+
+ <div class="sunset">
+  <div class="sun"></div>
+  <svg class="ranch-art"
+   viewBox="0 0 500 120"
+   preserveAspectRatio="none"
+   aria-hidden="true">
+   <path d="M0 110 Q80 75 170 100
+   Q280 65 370 100 Q440 80 500 100
+   L500 120 H0Z" fill="#29120c"/>
+   <g stroke="#29120c" stroke-width="3"
+      fill="none">
+    <path d="M75 105 L90 20 L105 105
+     M82 70 H99 M85 50 H96
+     M79 90 H102"/>
+    <path d="M90 20 L90 4
+     M65 20 H115 M72 8 L108 32
+     M72 32 L108 8"/>
+    <circle cx="90" cy="20" r="6"
+      fill="#29120c"/>
+   </g>
+   <g fill="#211009">
+    <ellipse cx="375" cy="102"
+     rx="23" ry="10"/>
+    <rect x="360" y="103" width="4"
+     height="17"/>
+    <rect x="384" y="103" width="4"
+     height="17"/>
+    <circle cx="398" cy="96" r="7"/>
+    <path d="M398 93 Q411 84 420 88
+     Q408 87 403 100Z"/>
+   </g>
+  </svg>
+  <small>✦ CUSTOM EDITION ✦</small>
+  <h1>KING RANCH</h1>
+  <small>2020 FORD F-150</small>
+ </div>
+
+ <div class="status">
+  <div id="weather">☀ Loading weather</div>
+  <div id="clock">--:--</div>
+  <div id="date"></div>
+ </div>
+</header>
+
+<main class="content">
+
+ <section class="map-panel leather">
+  <div class="map-wrap" id="map">
+   <button class="map-btn"
+    id="mapButton" onclick="toggleMap()">
+    ⛶ Full Screen
+   </button>
+   <iframe
+    title="Longview Texas map"
+    src="https://www.openstreetmap.org/export/embed.html?bbox=-94.87%2C32.44%2C-94.63%2C32.60&amp;layer=mapnik"
+    loading="lazy">
+   </iframe>
+  </div>
+ </section>
+
+ <aside class="side">
+
+  <a class="music pandora"
+   href="https://www.pandora.com/"
+   target="_blank" rel="noopener">
+   <span class="music-symbol">P</span>
+   <span class="music-name">
+    Pandora
+    <span class="music-sub">
+     TAP TO OPEN MUSIC
+    </span>
+   </span>
+  </a>
+
+  <a class="music apple"
+   href="https://music.apple.com/"
+   target="_blank" rel="noopener">
+   <span class="music-symbol">♫</span>
+   <span class="music-name">
+    Apple Music
+    <span class="music-sub">
+     TAP TO OPEN MUSIC
+    </span>
+   </span>
+  </a>
+
+  <section class="plaque leather">
+   <svg class="horns" viewBox="0 0 300 130"
+    aria-label="Gold longhorn skull">
+    <defs>
+     <linearGradient id="gold" x1="0" y1="0"
+      x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0bb"/>
+      <stop offset=".35" stop-color="#d99a40"/>
+      <stop offset=".65" stop-color="#84501d"/>
+      <stop offset="1" stop-color="#f8d58b"/>
+     </linearGradient>
+    </defs>
+    <path fill="url(#gold)"
+     stroke="#f2c678" stroke-width="2"
+     d="M145 48
+     Q110 32 75 38
+     Q35 38 8 5
+     Q15 56 68 62
+     Q104 64 130 70
+     L131 95 Q132 110 150 126
+     Q168 110 169 95
+     L170 70
+     Q196 64 232 62
+     Q285 56 292 5
+     Q265 38 225 38
+     Q190 32 155 48Z"/>
+    <path d="M145 68 L150 116 L155 68"
+     stroke="#633714" stroke-width="3"
+     fill="none"/>
+    <circle cx="138" cy="77" r="4"
+     fill="#3b200f"/>
+    <circle cx="162" cy="77" r="4"
+     fill="#3b200f"/>
+   </svg>
+   <div class="name">
+    Michael &amp; Dana
+   </div>
+  </section>
+
+ </aside>
+</main>
+
+<div class="footer">
+ KING RANCH • MICHAEL &amp; DANA • CUSTOM EDITION
+</div>
+</div>
+
+<script>
+function updateClock(){
+ const now=new Date();
+ document.getElementById("clock").textContent=
+  now.toLocaleTimeString([],{
+   hour:"numeric",minute:"2-digit"
+  });
+ document.getElementById("date").textContent=
+  now.toLocaleDateString([],{
+   weekday:"short",month:"short",day:"numeric"
+  });
+}
+updateClock();
+setInterval(updateClock,30000);
+
+function toggleMap(){
+ const map=document.getElementById("map");
+ const full=map.classList.toggle("full");
+ document.getElementById("mapButton").textContent=
+  full?"✕ Close Map":"⛶ Full Screen";
+}
+
+async function loadWeather(){
+ const el=document.getElementById("weather");
+ try{
+  const url=
+   "https://api.open-meteo.com/v1/forecast"+
+   "?latitude=32.5007&longitude=-94.7405"+
+   "&current=temperature_2m,weather_code"+
+   "&temperature_unit=fahrenheit"+
+   "&timezone=America%2FChicago";
+  const response=await fetch(url);
+  if(!response.ok)throw Error("Weather unavailable");
+  const data=await response.json();
+  const temp=Math.round(
+   data.current.temperature_2m
+  );
+  const code=data.current.weather_code;
+  let symbol="☀";
+  if(code>=1&&code<=3)symbol="⛅";
+  if(code>=45&&code<=48)symbol="🌫";
+  if(code>=51&&code<=67)symbol="🌧";
+  if(code>=71&&code<=77)symbol="❄";
+  if(code>=80&&code<=82)symbol="🌧";
+  if(code>=95)symbol="⛈";
+  el.textContent=symbol+" "+temp+"°F"+
+   " · Longview";
+ }catch(error){
+  el.textContent="☀ Longview, TX";
+ }
+}
+loadWeather();
+setInterval(loadWeather,900000);
+</script>
+</body>
+</html>
