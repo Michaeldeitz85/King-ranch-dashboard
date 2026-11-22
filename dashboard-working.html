@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+ content="width=device-width,initial-scale=1,
+ viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable"
+ content="yes">
+<meta name="theme-color" content="#241109">
+<title>King Ranch | Michael & Dana</title>
+
+<link rel="stylesheet"
+ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+*{box-sizing:border-box}
+html,body{
+ margin:0;width:100%;height:100%;
+ overflow:hidden;background:#160a05;
+ font-family:Arial,sans-serif;
+}
+.dashboard{
+ position:relative;
+ width:100vw;height:100dvh;
+ overflow:hidden;
+ background-image:
+ url("BD473A78-FF85-4D4A-B9EF-F92986E9F4F2.png");
+ background-size:100% 100%;
+ background-position:center;
+ background-repeat:no-repeat;
+}
+#mapFrame{
+ position:absolute;
+ left:2.1%;top:26.2%;
+ width:55.8%;height:69.8%;
+ overflow:hidden;
+ border-radius:5px;
+ border:2px solid #b88a52;
+ background:#a3b6a2;
+}
+#map{
+ width:100%;height:100%;
+ z-index:1;
+}
+#mapFrame.full{
+ position:fixed;
+ inset:0;
+ width:100vw;height:100dvh;
+ z-index:1000;
+ border:0;border-radius:0;
+}
+.mapControls{
+ position:absolute;
+ top:10px;right:10px;
+ z-index:500;
+ display:flex;gap:6px;
+}
+.mapControls button{
+ padding:9px;
+ border:1px solid #e4b877;
+ border-radius:7px;
+ background:#29150de8;
+ color:#ffe2a5;
+ font:bold 12px Arial;
+ cursor:pointer;
+}
+#gpsStatus{
+ position:absolute;
+ bottom:8px;left:8px;
+ z-index:500;
+ padding:6px 9px;
+ border-radius:6px;
+ background:#24150de0;
+ color:white;
+ font:11px Arial;
+ max-width:75%;
+}
+#weatherArea,#timeArea{
+ position:absolute;
+ z-index:5;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:#fff0d0;
+ background:#26120c;
+ border:1px solid #a87b4b;
+ border-radius:5px;
+}
+#weatherArea{
+ left:71%;top:6%;
+ width:12%;height:13%;
+}
+#timeArea{
+ left:84%;top:6%;
+ width:14%;height:13%;
+}
+#temperature{
+ font-weight:bold;
+ font-size:clamp(12px,1.8vw,24px);
+}
+#weatherLabel{
+ font-size:clamp(8px,1vw,13px);
+ margin-top:4px;
+}
+#clock{
+ font-size:clamp(12px,1.9vw,26px);
+ font-weight:bold;
+ white-space:nowrap;
+}
+#date{
+ font-size:clamp(9px,1.15vw,15px);
+ margin-top:5px;
+ white-space:nowrap;
+}
+.musicTap{
+ position:absolute;
+ display:block;
+ z-index:5;
+ background:transparent;
+ -webkit-tap-highlight-color:transparent;
+}
+#pandora{
+ left:60%;top:27%;
+ width:38%;height:19%;
+}
+#apple{
+ left:60%;top:47%;
+ width:38%;height:19%;
+}
+@media(orientation:portrait){
+ .dashboard{
+  width:100vw;
+  height:56.25vw;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+ }
+}
+</style>
+</head>
+
+<body>
+<div class="dashboard">
+
+ <div id="mapFrame">
+  <div id="map"></div>
+
+  <div class="mapControls">
+   <button onclick="followTruck()">
+    ◎ Follow
+   </button>
+   <button onclick="toggleFull()"
+    id="fullButton">
+    ⛶ Expand
+   </button>
+  </div>
+
+  <div id="gpsStatus">
+   Waiting for GPS permission
+  </div>
+ </div>
+
+ <div id="weatherArea">
+  <div id="temperature">--°F</div>
+  <div id="weatherLabel">
+   Longview, TX
+  </div>
+ </div>
+
+ <div id="timeArea">
+  <div id="clock">--:--</div>
+  <div id="date">---</div>
+ </div>
+
+ <a class="musicTap" id="pandora"
+  href="https://www.pandora.com/"
+  target="_blank" rel="noopener"
+  aria-label="Open Pandora"></a>
+
+ <a class="musicTap" id="apple"
+  href="https://music.apple.com/"
+  target="_blank" rel="noopener"
+  aria-label="Open Apple Music"></a>
+
+</div>
+
+<script
+ src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+<script>
+"use strict";
+
+// LIVE CLOCK AND DATE
+function updateClock(){
+ const now=new Date();
+
+ document.getElementById("clock").textContent=
+  now.toLocaleTimeString("en-US",{
+   hour:"numeric",
+   minute:"2-digit"
+  });
+
+ document.getElementById("date").textContent=
+  now.toLocaleDateString("en-US",{
+   weekday:"short",
+   month:"short",
+   day:"numeric"
+  });
+}
+updateClock();
+setInterval(updateClock,10000);
+
+// LIVE WEATHER
+async function updateWeather(){
+ const tempBox=
+  document.getElementById("temperature");
+ const label=
+  document.getElementById("weatherLabel");
+
+ try{
+  const url=
+   "https://api.open-meteo.com/v1/forecast"+
+   "?latitude=32.5007"+
+   "&longitude=-94.7405"+
+   "&current=temperature_2m,weather_code"+
+   "&temperature_unit=fahrenheit"+
+   "&timezone=America%2FChicago";
+
+  const response=await fetch(url);
+  if(!response.ok)throw Error("Weather unavailable");
+
+  const data=await response.json();
+  const temp=Math.round(
+   data.current.temperature_2m
+  );
+  const code=data.current.weather_code;
+
+  let symbol="☀";
+  if(code>=1&&code<=3)symbol="⛅";
+  if(code>=45&&code<=48)symbol="🌫";
+  if(code>=51&&code<=67)symbol="🌧";
+  if(code>=71&&code<=77)symbol="❄";
+  if(code>=80&&code<=82)symbol="🌧";
+  if(code>=95)symbol="⛈";
+
+  tempBox.textContent=symbol+" "+temp+"°F";
+  label.textContent="Longview, TX";
+
+ }catch(error){
+  tempBox.textContent="--°F";
+  label.textContent="Weather unavailable";
+ }
+}
+updateWeather();
+setInterval(updateWeather,900000);
+
+// LIVE MAP
+const map=L.map("map",{
+ zoomControl:false
+}).setView([32.5007,-94.7405],12);
+
+L.tileLayer(
+ "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+ {
+  attribution:"© OpenStreetMap contributors",
+  maxZoom:19
+ }
+).addTo(map);
+
+L.control.zoom({
+ position:"bottomright"
+}).addTo(map);
+
+let truckMarker=null;
+let accuracyCircle=null;
+let following=true;
+let lastPosition=null;
+
+const gpsStatus=
+ document.getElementById("gpsStatus");
+
+function updateTruck(position){
+ const lat=position.coords.latitude;
+ const lon=position.coords.longitude;
+ const accuracy=position.coords.accuracy;
+
+ lastPosition=[lat,lon];
+
+ if(!truckMarker){
+  truckMarker=L.circleMarker([lat,lon],{
+   radius:9,
+   color:"white",
+   weight:3,
+   fillColor:"#1479ff",
+   fillOpacity:1
+  }).addTo(map);
+
+  accuracyCircle=L.circle([lat,lon],{
+   radius:accuracy,
+   color:"#1479ff",
+   weight:1,
+   fillOpacity:.07
+  }).addTo(map);
+
+ }else{
+  truckMarker.setLatLng([lat,lon]);
+  accuracyCircle.setLatLng([lat,lon]);
+  accuracyCircle.setRadius(accuracy);
+ }
+
+ if(following){
+  map.setView([lat,lon],
+   Math.max(map.getZoom(),15),{
+    animate:true
+   });
+ }
+
+ gpsStatus.textContent=
+  "● GPS active · ±"+
+  Math.round(accuracy)+" m";
+}
+
+function gpsError(error){
+ const messages={
+  1:"Location permission denied",
+  2:"GPS position unavailable",
+  3:"Waiting for GPS signal"
+ };
+ gpsStatus.textContent=
+  messages[error.code]||"GPS unavailable";
+}
+
+if("geolocation" in navigator){
+ navigator.geolocation.watchPosition(
+  updateTruck,
+  gpsError,
+  {
+   enableHighAccuracy:true,
+   maximumAge:1000,
+   timeout:20000
+  }
+ );
+}else{
+ gpsStatus.textContent=
+  "Location not supported";
+}
+
+map.on("dragstart",function(){
+ following=false;
+});
+
+function followTruck(){
+ following=true;
+ if(lastPosition){
+  map.setView(lastPosition,16);
+  gpsStatus.textContent="Following truck";
+ }else{
+  gpsStatus.textContent=
+   "Waiting for GPS location";
+ }
+}
+
+function toggleFull(){
+ const frame=
+  document.getElementById("mapFrame");
+ const button=
+  document.getElementById("fullButton");
+
+ const full=frame.classList.toggle("full");
+ button.textContent=
+  full?"✕ Close":"⛶ Expand";
+
+ setTimeout(function(){
+  map.invalidateSize();
+  if(following&&lastPosition){
+   map.panTo(lastPosition);
+  }
+ },150);
+}
+
+window.addEventListener("resize",function(){
+ map.invalidateSize();
+});
+</script>
+</body>
+</html>
