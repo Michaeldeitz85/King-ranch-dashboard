@@ -8,340 +8,287 @@
 <title>King Ranch | Michael & Dana</title>
 
 <style>
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 
-html,body {
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#160a05;
-  font-family:Arial,sans-serif;
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #160a05;
+  font-family: Arial, sans-serif;
 }
 
 .dashboard {
-  position:relative;
-  width:100vw;
-  height:100dvh;
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
   background:
     url("BD473A78-FF85-4D4A-B9EF-F92986E9F4F2.png")
     center / 100% 100% no-repeat;
-  overflow:hidden;
 }
 
-/* LIVE WEATHER AND CLOCK */
+/* WEATHER AND CLOCK */
 
 .live-panel {
-  position:absolute;
-  top:8%;
-  height:13%;
-  background:linear-gradient(145deg,#3c2111,#170b05);
-  border:2px solid #c49345;
-  border-radius:9px;
-  box-shadow:inset 0 0 8px #b98537;
-  color:#ffe0a0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  z-index:10;
+  position: absolute;
+  top: 7%;
+  height: 17%;
+  background: linear-gradient(
+    145deg, #482711, #211006 55%, #482711
+  );
+  border: 2px solid #d6a34f;
+  border-radius: 13px;
+  box-shadow:
+    inset 0 0 10px #bd873a,
+    0 0 7px #000;
+  color: #ffe3a5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 20;
 }
 
 #weather {
-  left:71%;
-  width:12%;
+  left: 62%;
+  width: 15%;
 }
 
 #timePanel {
-  left:84%;
-  width:14%;
+  left: 78%;
+  width: 20%;
 }
 
 #temperature {
-  font-size:clamp(15px,2vw,27px);
-  font-weight:bold;
-  color:#ffdf91;
+  font-family: Georgia, serif;
+  font-size: clamp(20px, 2.8vw, 36px);
+  font-weight: bold;
+  color: #ffdc8b;
 }
 
 #weatherDescription {
-  font-size:clamp(8px,1vw,13px);
-  margin-top:4px;
+  font-family: Georgia, serif;
+  font-size: clamp(10px, 1.25vw, 16px);
+  color: #ffe5b0;
+  margin-top: 5px;
 }
 
 #clock {
-  font-family:Georgia,serif;
-  font-size:clamp(17px,2.2vw,30px);
-  font-weight:bold;
-  color:#ffe2a1;
-  white-space:nowrap;
+  font-family: Georgia, serif;
+  font-size: clamp(23px, 3vw, 39px);
+  font-weight: bold;
+  color: #ffe0a0;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px #000;
 }
 
 #date {
-  font-family:Georgia,serif;
-  font-size:clamp(10px,1.2vw,16px);
-  margin-top:5px;
-  color:#ffe2a1;
-  white-space:nowrap;
+  font-family: Georgia, serif;
+  font-size: clamp(12px, 1.5vw, 19px);
+  color: #ffe0a0;
+  margin-top: 8px;
+  white-space: nowrap;
 }
 
-/* GOOGLE MAPS */
+/* MAP */
 
 #mapFrame {
-  position:absolute;
-  left:2.3%;
-  top:27%;
-  width:56.5%;
-  height:70%;
-  border:3px solid #bd8a43;
-  border-radius:12px;
-  overflow:hidden;
-  background:#1c261c;
-  z-index:2;
+  position: absolute;
+  left: 2.3%;
+  top: 27%;
+  width: 56.5%;
+  height: 70%;
+  border: 3px solid #bd8a43;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1c261c;
+  z-index: 2;
 }
 
-#mapFrame iframe {
-  width:100%;
-  height:100%;
-  border:0;
+#googleMap {
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .mapSearch {
-  position:absolute;
-  z-index:5;
-  left:3%;
-  top:3%;
-  width:94%;
-  display:flex;
-  gap:5px;
+  position: absolute;
+  z-index: 5;
+  left: 3%;
+  top: 3%;
+  width: 94%;
+  display: flex;
+  gap: 5px;
 }
 
 .mapSearch input {
-  flex:1;
-  min-width:0;
-  padding:12px;
-  border:1px solid #c99b57;
-  border-radius:9px;
-  font-size:15px;
-  background:white;
-  color:#222;
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #c99b57;
+  border-radius: 9px;
+  font-size: 15px;
+  background: white;
+  color: #222;
 }
 
 .mapSearch button {
-  border:0;
-  border-radius:8px;
-  background:#1769db;
-  color:white;
-  padding:9px;
-  font-weight:bold;
+  border: 0;
+  border-radius: 8px;
+  background: #1769db;
+  color: white;
+  padding: 9px;
+  font-weight: bold;
 }
 
 .mapButtons {
-  position:absolute;
-  z-index:5;
-  right:3%;
-  bottom:3%;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
+  position: absolute;
+  z-index: 5;
+  right: 3%;
+  bottom: 3%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .mapButtons button {
-  background:#2d190e;
-  color:#ffe0a0;
-  border:1px solid #d4a45a;
-  border-radius:8px;
-  padding:10px;
-  font-weight:bold;
+  background: #2d190e;
+  color: #ffe0a0;
+  border: 1px solid #d4a45a;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+#gpsStatus {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 6;
+  color: white;
+  background: #24150de8;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 11px;
 }
 
 /* PANDORA */
 
 .pandora {
-  position:absolute;
-  left:60%;
-  top:28%;
-  width:38%;
-  height:19%;
-  z-index:8;
-  background:linear-gradient(130deg,#00123c,#003a85,#00102c);
-  border:3px solid #c79447;
-  border-radius:15px;
-  color:white;
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  box-shadow:inset 0 0 15px #2476ff;
+  position: absolute;
+  left: 60%;
+  top: 28%;
+  width: 38%;
+  height: 19%;
+  z-index: 8;
+  background: linear-gradient(
+    130deg, #00123c, #003a85, #00102c
+  );
+  border: 3px solid #c79447;
+  border-radius: 15px;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: inset 0 0 15px #2476ff;
 }
 
 .pandora strong {
-  font-size:clamp(17px,3vw,36px);
+  font-size: clamp(17px, 3vw, 36px);
 }
 
 .pandora span {
-  font-size:clamp(11px,1.7vw,20px);
-  margin-top:7px;
+  font-size: clamp(11px, 1.7vw, 20px);
+  margin-top: 7px;
 }
 
 /* PHONE AND MESSAGES */
 
 .appButtons {
-  position:absolute;
-  left:60%;
-  top:49%;
-  width:38%;
-  height:19%;
-  display:flex;
-  gap:3%;
-  z-index:12;
+  position: absolute;
+  left: 60%;
+  top: 49%;
+  width: 38%;
+  height: 19%;
+  display: flex;
+  gap: 3%;
+  z-index: 12;
 }
 
 .appButton {
-  width:48.5%;
-  height:100%;
-  border:3px solid #c9974d;
-  border-radius:15px;
-  background:linear-gradient(145deg,#482916,#1c0c05);
-  color:#ffe3a6;
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  box-shadow:inset 0 0 12px #b17c39;
-  gap:7px;
+  width: 48.5%;
+  height: 100%;
+  border: 3px solid #c9974d;
+  border-radius: 15px;
+  background: linear-gradient(
+    145deg, #482916, #1c0c05
+  );
+  color: #ffe3a6;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: inset 0 0 12px #b17c39;
+  gap: 7px;
 }
 
 .appButton .symbol {
-  font-size:clamp(30px,5vw,57px);
+  font-size: clamp(30px, 5vw, 57px);
 }
 
 .appButton strong {
-  font-family:Georgia,serif;
-  font-size:clamp(13px,1.8vw,22px);
+  font-family: Georgia, serif;
+  font-size: clamp(13px, 1.8vw, 22px);
 }
 
-/* MAP FULL SCREEN */
+/* FULL SCREEN MAP */
 
 #mapFrame.full {
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100dvh;
-  z-index:1000;
-  border:0;
-  border-radius:0;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 1000;
+  border: 0;
+  border-radius: 0;
 }
 
 #closeMap {
-  display:none;
-  position:fixed;
-  top:12px;
-  right:12px;
-  z-index:1010;
-  padding:12px 18px;
-  background:#29160a;
-  color:#ffe0a0;
-  border:2px solid #d3a45a;
-  border-radius:9px;
-  font-weight:bold;
+  display: none;
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1010;
+  padding: 12px 18px;
+  background: #29160a;
+  color: #ffe0a0;
+  border: 2px solid #d3a45a;
+  border-radius: 9px;
+  font-weight: bold;
 }
 
 #mapFrame.full #closeMap {
-  display:block;
+  display: block;
 }
 
-#gpsStatus {
-  position:absolute;
-  left:8px;
-  bottom:8px;
-  z-index:6;
-  color:white;
-  background:#24150de8;
-  border-radius:6px;
-  padding:6px;
-  font-size:11px;
-}
+/* IPAD PORTRAIT */
 
-@media(orientation:portrait) {
+@media (orientation: portrait) {
   .dashboard {
-    width:100vw;
-    height:56.25vw;
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
+    width: 100vw;
+    height: 56.25vw;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
-</
-/* FINAL KING RANCH WEATHER AND CLOCK DESIGN */
-
-.live-panel {
-  position:absolute;
-  top:7%;
-  height:17%;
-  background:linear-gradient(
-    145deg,
-    #482711,
-    #211006 55%,
-    #482711
-  );
-  border:2px solid #d6a34f;
-  border-radius:13px;
-  box-shadow:
-    inset 0 0 10px #bd873a,
-    0 0 7px #000;
-  color:#ffe3a5;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  z-index:20;
-}
-
-#weather {
-  left:62%;
-  width:15%;
-}
-
-#timePanel {
-  left:78%;
-  width:20%;
-}
-
-#temperature {
-  font-family:Georgia,serif;
-  font-size:clamp(20px,2.8vw,36px);
-  font-weight:bold;
-  color:#ffdc8b;
-}
-
-#weatherDescription {
-  font-family:Georgia,serif;
-  font-size:clamp(10px,1.25vw,16px);
-  color:#ffe5b0;
-  margin-top:5px;
-}
-
-#clock {
-  font-family:Georgia,serif;
-  font-size:clamp(23px,3vw,39px);
-  font-weight:bold;
-  color:#ffe0a0;
-  white-space:nowrap;
-  text-shadow:0 1px 4px #000;
-}
-
-#date {
-  font-family:Georgia,serif;
-  font-size:clamp(12px,1.5vw,19px);
-  color:#ffe0a0;
-  margin-top:8px;
-  white-space:nowrap;
-}
-style>
+</style>
 </head>
 
 <body>
@@ -385,7 +332,9 @@ style>
       <button onclick="expandMap()">Expand</button>
     </div>
 
-    <button id="closeMap" onclick="closeMap()">Close Map</button>
+    <button id="closeMap" onclick="closeMap()">
+      Close Map
+    </button>
 
     <div id="gpsStatus">GPS ready</div>
   </div>
@@ -419,33 +368,33 @@ style>
 <script>
 "use strict";
 
-/* CLOCK AND DATE: LONGVIEW LOCAL TIME */
+/* LIVE LONGVIEW CLOCK */
 
 function updateClock() {
   const now = new Date();
 
   document.getElementById("clock").textContent =
     new Intl.DateTimeFormat("en-US", {
-      timeZone:"America/Chicago",
-      hour:"numeric",
-      minute:"2-digit"
+      timeZone: "America/Chicago",
+      hour: "numeric",
+      minute: "2-digit"
     }).format(now);
 
   document.getElementById("date").textContent =
     new Intl.DateTimeFormat("en-US", {
-      timeZone:"America/Chicago",
-      weekday:"short",
-      month:"short",
-      day:"numeric",
-      year:"numeric"
+      timeZone: "America/Chicago",
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric"
     }).format(now);
 }
 
 updateClock();
-setInterval(updateClock,10000);
+setInterval(updateClock, 10000);
 
 
-/* ACTUAL LONGVIEW WEATHER */
+/* LIVE LONGVIEW WEATHER */
 
 async function updateWeather() {
   const temp = document.getElementById("temperature");
@@ -462,44 +411,52 @@ async function updateWeather() {
       "&timezone=America%2FChicago";
 
     const response = await fetch(url);
-    if (!response.ok) throw Error("Weather unavailable");
+
+    if (!response.ok) {
+      throw Error("Weather unavailable");
+    }
 
     const data = await response.json();
     const current = data.current;
-
     const code = current.weather_code;
     const degrees = Math.round(current.temperature_2m);
 
     let icon = "☀";
     let condition = "Clear";
 
-    if ([1,2,3].includes(code)) {
+    if ([1, 2, 3].includes(code)) {
       icon = "⛅";
       condition = "Cloudy";
     }
-    if ([45,48].includes(code)) {
+
+    if ([45, 48].includes(code)) {
       icon = "🌫";
       condition = "Fog";
     }
+
     if (code >= 51 && code <= 67) {
       icon = "🌧";
       condition = "Rain";
     }
+
     if (code >= 71 && code <= 77) {
       icon = "❄";
       condition = "Snow";
     }
+
     if (code >= 80 && code <= 82) {
       icon = "🌧";
       condition = "Showers";
     }
+
     if (code >= 95) {
       icon = "⛈";
       condition = "Storm";
     }
 
     temp.textContent = icon + " " + degrees + "°F";
-    description.textContent = condition + " · Longview, TX";
+    description.textContent =
+      condition + " · Longview, TX";
 
   } catch (error) {
     temp.textContent = "--°F";
@@ -508,7 +465,7 @@ async function updateWeather() {
 }
 
 updateWeather();
-setInterval(updateWeather,900000);
+setInterval(updateWeather, 900000);
 
 
 /* GOOGLE MAPS SEARCH */
@@ -540,6 +497,7 @@ function getDirections() {
   if (!destination) {
     document.getElementById("gpsStatus").textContent =
       "Enter a destination first";
+
     document.getElementById("destination").focus();
     return;
   }
@@ -577,9 +535,10 @@ function useMyLocation() {
 
   navigator.geolocation.getCurrentPosition(
     function(position) {
+
       currentGPS = {
-        latitude:position.coords.latitude,
-        longitude:position.coords.longitude
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       };
 
       document.getElementById("gpsStatus").textContent =
@@ -592,14 +551,16 @@ function useMyLocation() {
         currentGPS.longitude +
         "&z=16&output=embed";
     },
+
     function() {
       document.getElementById("gpsStatus").textContent =
         "Location permission or GPS unavailable";
     },
+
     {
-      enableHighAccuracy:true,
-      timeout:20000,
-      maximumAge:5000
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 5000
     }
   );
 }
@@ -608,14 +569,15 @@ function useMyLocation() {
 /* FULL SCREEN MAP */
 
 function expandMap() {
-  const frame = document.getElementById("mapFrame");
-  frame.classList.add("full");
+  document.getElementById("mapFrame")
+    .classList.add("full");
 }
 
 function closeMap() {
   document.getElementById("mapFrame")
     .classList.remove("full");
 }
+
 </script>
 
 </body>
