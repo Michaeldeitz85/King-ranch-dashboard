@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#24130d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>KING RANCH Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#24130d;
+ color:#e8bf72;
+ font-family:Georgia,serif;
+}
+.dashboard{
+ min-height:100dvh;
+ padding:12px;
+ background:
+ radial-gradient(ellipse at top,#57351f,#24130d 70%);
+}
+header{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:12px;
+ border:2px solid #a87839;
+ border-radius:12px;
+ padding:12px 18px;
+ box-shadow:inset 0 0 0 3px #382015;
+}
+.brand{text-align:center;flex:1}
+.brand h1{
+ margin:0;
+ font-size:clamp(22px,4vw,42px);
+ letter-spacing:5px;
+ color:#f0c47a;
+ text-shadow:2px 3px 4px #000;
+}
+.brand small{letter-spacing:3px}
+.monogram{
+ border:2px solid #c9974b;
+ border-radius:50%;
+ width:76px;height:76px;
+ display:grid;place-items:center;
+ font-size:27px;font-weight:bold;
+ background:#392116;
+}
+.status{text-align:right;min-width:105px}
+#clock{font-size:24px}
+.layout{
+ display:grid;
+ grid-template-columns:65% 1fr;
+ gap:12px;
+ margin-top:12px;
+}
+.panel{
+ border:2px solid #a87839;
+ border-radius:13px;
+ padding:12px;
+ background:linear-gradient(135deg,#432819,#29170f);
+ box-shadow:inset 0 0 0 3px #27150d;
+}
+.panel h2{
+ margin:0 0 10px;
+ font-size:20px;
+ text-align:center;
+}
+.map-panel{min-height:60vh}
+.map{
+ position:relative;
+ height:calc(60vh - 65px);
+ min-height:260px;
+ overflow:hidden;
+ border-radius:9px;
+ background:#d6d2bf;
+}
+.map iframe{
+ width:100%;height:100%;
+ border:0;
+}
+.map-full{
+ position:fixed;
+ inset:0;
+ z-index:100;
+ height:100dvh;
+ border-radius:0;
+}
+.map-button{
+ position:absolute;
+ top:10px;right:10px;
+ z-index:2;
+ background:#332014;
+ color:#f5cd87;
+ border:1px solid #d4a65d;
+ padding:10px;
+ border-radius:8px;
+}
+.side{
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
+.music-buttons{
+ display:grid;
+ gap:12px;
+}
+.music-buttons a{
+ display:block;
+ padding:17px 8px;
+ text-align:center;
+ border:1px solid #c99b55;
+ border-radius:10px;
+ background:#593720;
+ color:#ffdf9c;
+ text-decoration:none;
+ font-size:19px;
+}
+.plaque{
+ flex:1;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ text-align:center;
+ min-height:130px;
+ background:linear-gradient(145deg,#9e702d,#e4bb70,#8e5b25);
+ border:4px ridge #f0d094;
+ border-radius:14px;
+ color:#321c0d;
+ text-shadow:0 1px #f7dfab;
+}
+.plaque .horns{font-size:40px}
+.plaque strong{font-size:24px}
+footer{
+ text-align:center;
+ padding:12px;
+ font-size:12px;
+ letter-spacing:2px;
+}
+@media(max-width:600px){
+ .layout{grid-template-columns:1fr}
+ .map-panel{min-height:0}
+ .map{height:45vh}
+ .monogram{width:55px;height:55px;font-size:19px}
+ .status{min-width:70px}
+ #clock{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+<header>
+ <div class="monogram">MCD</div>
+ <div class="brand">
+  <h1>KING RANCH</h1>
+  <small>CUSTOM EDITION</small>
+ </div>
+ <div class="status">
+  <div id="clock">--:--</div>
+  <div id="weather">Weather ☀</div>
+ </div>
+</header>
+
+<main class="layout">
+ <section class="panel map-panel">
+  <h2>Navigation</h2>
+  <div class="map" id="map">
+   <button class="map-button"
+    onclick="toggleMap()">⛶ Expand</button>
+   <iframe
+    title="Navigation map"
+    src="https://www.openstreetmap.org/export/embed.html?bbox=-94.85%2C32.45%2C-94.65%2C32.58&amp;layer=mapnik"
+    loading="lazy">
+   </iframe>
+  </div>
+ </section>
+
+ <aside class="side">
+  <section class="panel">
+   <h2>Entertainment</h2>
+   <div class="music-buttons">
+    <a href="https://music.apple.com/"
+       target="_blank">♫ Apple Music</a>
+    <a href="https://www.pandora.com/"
+       target="_blank">♫ Pandora</a>
+   </div>
+  </section>
+
+  <section class="panel plaque">
+   <div class="horns">𐂂</div>
+   <strong>Michael &amp; Dana</strong>
+   <span>KING RANCH</span>
+  </section>
+ </aside>
+</main>
+<footer>2020 F-150 KING RANCH • MCD CUSTOM</footer>
+</div>
+
+<script>
+function updateClock(){
+ const now=new Date();
+ document.getElementById("clock").textContent=
+ now.toLocaleTimeString([],{
+  hour:"numeric",minute:"2-digit"
+ });
+}
+updateClock();
+setInterval(updateClock,30000);
+
+function toggleMap(){
+ const map=document.getElementById("map");
+ const expanded=map.classList.toggle("map-full");
+ map.querySelector("button").textContent=
+ expanded?"✕ Close":"⛶ Expand";
+}
+</script>
+</body>
+</html>
