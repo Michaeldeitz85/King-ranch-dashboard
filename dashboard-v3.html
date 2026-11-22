@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#241008">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>KING RANCH — Michael & Dana</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#160b07}
+body{font-family:Georgia,serif;color:#f5d99a}
+button,a{-webkit-tap-highlight-color:transparent}
+.dashboard{
+ min-height:100dvh;
+ padding:9px;
+ display:flex;
+ flex-direction:column;
+ gap:9px;
+ background:
+ repeating-linear-gradient(25deg,
+ transparent 0 3px,#ffffff04 4px 5px),
+ radial-gradient(ellipse at 45% 15%,#60331c,#210e08 80%);
+}
+.leather{
+ border:3px solid #a76c32;
+ outline:2px dashed #d6a26b;
+ outline-offset:-8px;
+ border-radius:19px;
+ box-shadow:inset 0 0 18px #090301,0 4px 12px #080302;
+ background:linear-gradient(140deg,#542b17,#2a120b 75%);
+}
+.top{
+ min-height:112px;
+ display:grid;
+ grid-template-columns:22% 1fr 23%;
+ align-items:stretch;
+ overflow:hidden;
+}
+.logo{
+ display:grid;
+ place-items:center;
+ padding:8px;
+ border-right:2px solid #9b612e;
+}
+.logo span{
+ font-style:italic;
+ font-size:clamp(30px,5vw,64px);
+ letter-spacing:-6px;
+ background:linear-gradient(#fff1bd,#e5ad4e,#7b4215,#f8d789);
+ color:transparent;
+ background-clip:text;
+ -webkit-background-clip:text;
+ filter:drop-shadow(2px 3px 2px #000);
+}
+.sunset{
+ position:relative;
+ text-align:center;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ overflow:hidden;
+ background:
+ linear-gradient(0deg,#2b1009 0%,transparent 38%),
+ radial-gradient(ellipse at 50% 100%,
+ #ffe278 0%,#e9732e 23%,#9a3040 52%,#311326 95%);
+}
+.sunset:after{
+ content:"";
+ position:absolute;
+ bottom:0;
+ left:0;
+ right:0;
+ height:17%;
+ background:linear-gradient(transparent,#230e08);
+}
+.sunset h1{
+ position:relative;
+ z-index:1;
+ margin:0;
+ font-size:clamp(24px,4.4vw,54px);
+ letter-spacing:2px;
+ color:#ffdc8e;
+ text-shadow:2px 3px 2px #2c1007,0 0 10px #000;
+}
+.sunset small{
+ position:relative;
+ z-index:1;
+ color:#ffe5b4;
+ letter-spacing:3px;
+ font-size:clamp(9px,1.3vw,14px);
+}
+.status{
+ padding:12px 8px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:8px;
+ text-align:center;
+}
+#clock{font-size:clamp(17px,2.4vw,27px)}
+#weather{font-size:clamp(12px,1.5vw,17px)}
+.main{
+ flex:1;
+ min-height:0;
+ display:grid;
+ grid-template-columns:61% 1fr;
+ gap:9px;
+}
+.map-frame{
+ position:relative;
+ min-height:360px;
+ overflow:hidden;
+ padding:10px;
+}
+.map-inner{
+ position:relative;
+ width:100%;
+ height:100%;
+ min-height:340px;
+ border-radius:12px;
+ overflow:hidden;
+ background:#b6c8a6;
+}
+.map-inner iframe{
+ width:100%;
+ height:100%;
+ border:0;
+}
+.map-full{
+ position:fixed!important;
+ inset:0!important;
+ width:100vw!important;
+ height:100dvh!important;
+ z-index:999;
+ border-radius:0!important;
+}
+.expand{
+ position:absolute;
+ right:12px;
+ top:12px;
+ z-index:5;
+ background:#32190eea;
+ color:#ffe2a5;
+ border:1px solid #d4a15d;
+ border-radius:8px;
+ padding:11px;
+ font-size:14px;
+}
+.right{
+ display:grid;
+ grid-template-rows:1fr 1fr 1.2fr;
+ gap:9px;
+ min-height:0;
+}
+.music{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ padding:12px;
+ text-decoration:none;
+ color:white;
+ border-radius:18px;
+ border:3px solid #a76c32;
+ outline:2px dashed #d6a26b;
+ outline-offset:-8px;
+ box-shadow:inset 0 0 15px #0009;
+}
+.pandora{
+ background:linear-gradient(145deg,#06346b,#087bcb 48%,#041b43);
+}
+.apple{
+ background:linear-gradient(145deg,#5d0a22,#d52046 48%,#410b1d);
+}
+.music-icon{
+ font:bold clamp(30px,4vw,52px) Arial,sans-serif;
+ text-shadow:2px 3px 3px #000;
+}
+.music-text{
+ font:clamp(17px,2.3vw,28px) Arial,sans-serif;
+ font-weight:bold;
+}
+.music small{
+ display:block;
+ font-size:12px;
+ font-weight:normal;
+ margin-top:6px;
+ opacity:.9;
+}
+.plaque{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ padding:12px;
+ text-align:center;
+}
+.longhorn{
+ font-size:clamp(35px,5vw,65px);
+ line-height:1.1;
+ color:#f2bd62;
+ filter:drop-shadow(2px 3px 2px #000);
+}
+.nameplate{
+ width:90%;
+ padding:10px 5px;
+ border:3px ridge #f6d18c;
+ border-radius:30px;
+ background:linear-gradient(145deg,#8c4a16,#f7d58b,#a86925);
+ box-shadow:0 3px 7px #000;
+ color:#321307;
+ font-size:clamp(17px,2.5vw,30px);
+ font-weight:bold;
+ font-style:italic;
+ text-shadow:0 1px #fff2c7;
+}
+.footer{
+ text-align:center;
+ font-size:10px;
+ letter-spacing:2px;
+ color:#c69a63;
+}
+@media(max-width:650px){
+ .top{grid-template-columns:23% 1fr 25%;min-height:85px}
+ .logo span{font-size:29px;letter-spacing:-3px}
+ .main{grid-template-columns:1fr}
+ .map-frame{height:48vh;min-height:260px}
+ .map-inner{min-height:230px}
+ .right{grid-template-rows:90px 90px 140px}
+ .sunset h1{font-size:22px}
+ .status{padding:4px}
+}
+</style>
+</head>
+<body>
+<div class="dashboard">
+ <header class="top leather">
+  <div class="logo">
+   <span>M&amp;D</span>
+  </div>
+  <div class="sunset">
+   <small>✦ CUSTOM EDITION ✦</small>
+   <h1>KING RANCH</h1>
+   <small>2020 F-150</small>
+  </div>
+  <div class="status">
+   <div id="weather">☀ Weather</div>
+   <div id="clock">--:--</div>
+  </div>
+ </header>
+
+ <main class="main">
+  <section class="map-frame leather">
+   <div class="map-inner" id="map">
+    <button class="expand" id="mapButton"
+      onclick="toggleMap()">⛶ Expand</button>
+    <iframe
+     title="Longview area map"
+     src="https://www.openstreetmap.org/export/embed.html?bbox=-94.85%2C32.45%2C-94.65%2C32.58&amp;layer=mapnik"
+     loading="lazy">
+    </iframe>
+   </div>
+  </section>
+
+  <aside class="right">
+   <a class="music pandora"
+      href="https://www.pandora.com/"
+      target="_blank" rel="noopener">
+    <span class="music-icon">P</span>
+    <span class="music-text">
+     Pandora
+     <small>Tap to open music</small>
+    </span>
+   </a>
+
+   <a class="music apple"
+      href="https://music.apple.com/"
+      target="_blank" rel="noopener">
+    <span class="music-icon">♫</span>
+    <span class="music-text">
+     Apple Music
+     <small>Tap to open music</small>
+    </span>
+   </a>
+
+   <section class="plaque leather">
+    <div class="longhorn">𐂂</div>
+    <div class="nameplate">
+     Michael &amp; Dana
+    </div>
+   </section>
+  </aside>
+ </main>
+ <div class="footer">KING RANCH • CUSTOM DASHBOARD</div>
+</div>
+
+<script>
+function updateClock(){
+ document.getElementById("clock").textContent=
+ new Date().toLocaleTimeString([],{
+  hour:"numeric",
+  minute:"2-digit"
+ });
+}
+updateClock();
+setInterval(updateClock,30000);
+
+function toggleMap(){
+ const map=document.getElementById("map");
+ const expanded=map.classList.toggle("map-full");
+ document.getElementById("mapButton").textContent=
+ expanded?"✕ Close":"⛶ Expand";
+}
+</script>
+</body>
+</html>
